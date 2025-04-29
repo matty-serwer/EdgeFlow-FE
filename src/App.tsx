@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { connectStomp, disconnectStomp } from './utils/stompClient';
 
-import { useState } from 'react'
-import './App.css'
+export default function App() {
+  const [data, setData] = useState<any>(null);
 
-function App() {
-  const [count, setCount] = useState(0)
+  useEffect(() => {
+    connectStomp(setData);
+    return () => disconnectStomp();
+  }, []);
 
   return (
-    <>
-      <h1>Hiya!</h1>
-    </>
-  )
+    <div>
+      <h1>EdgeFlow Dashboard</h1>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
+    </div>
+  );
 }
-
-export default App
